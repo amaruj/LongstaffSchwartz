@@ -1,0 +1,10 @@
+﻿  LongstaffSchwartz.cpp
+c:\users\amaru_000\documents\visual studio 2015\projects\longstaffschwartz\longstaffschwartz\longstaffschwartz.cpp(5): warning C4067: jetons inattendus après la directive du préprocesseur - saut de ligne attendu
+c:\users\amaru_000\documents\peps\modelpricing\pool_pattern.h(166): warning C4244: 'argument' : conversion de 'time_t' en 'unsigned long', perte possible de données
+c:\users\amaru_000\documents\visual studio 2015\projects\longstaffschwartz\longstaffschwartz\longstaffschwartz.cpp(6): warning C4067: jetons inattendus après la directive du préprocesseur - saut de ligne attendu
+c:\users\amaru_000\documents\visual studio 2015\projects\longstaffschwartz\longstaffschwartz\americanpricer.h(4): warning C4067: jetons inattendus après la directive du préprocesseur - saut de ligne attendu
+c:\users\amaru_000\documents\visual studio 2015\projects\longstaffschwartz\longstaffschwartz\americanpricer.h(5): warning C4067: jetons inattendus après la directive du préprocesseur - saut de ligne attendu
+c:\users\amaru_000\documents\visual studio 2015\projects\longstaffschwartz\longstaffschwartz\longstaffschwartz.cpp(29): warning C4244: 'argument' : conversion de 'time_t' en 'unsigned long', perte possible de données
+c:\users\amaru_000\documents\visual studio 2015\projects\longstaffschwartz\longstaffschwartz\longstaffschwartz.cpp(54): warning C4244: 'argument' : conversion de 'double' en 'int', perte possible de données
+  LongstaffSchwartz.vcxproj -> C:\Users\amaru_000\documents\visual studio 2015\Projects\LongstaffSchwartz\x64\Debug\LongstaffSchwartz.exe
+  LongstaffSchwartz.vcxproj -> C:\Users\amaru_000\documents\visual studio 2015\Projects\LongstaffSchwartz\x64\Debug\LongstaffSchwartz.pdb (Full PDB)
