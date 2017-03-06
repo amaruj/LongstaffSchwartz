@@ -44,7 +44,7 @@ int main()
 		spots, corr);
 
 	// Nombre de samples 
-	int M = 1000;
+	int M = 10000;
 
 	PnlVect* lambda = pnl_vect_create(nbSSJ);
     for (int i = 0; i < nbSSJ; i++) {

@@ -31,6 +31,9 @@ private:
 	PnlVect* alpha ;
 	PnlMat* S ;
 	PnlVect* Payoff;
+	PnlVect* row;
+	double* X;
 	double* a;
 	double* b;
+
 };

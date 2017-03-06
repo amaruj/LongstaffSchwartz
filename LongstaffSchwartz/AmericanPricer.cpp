@@ -25,6 +25,8 @@ AmericanPricer::AmericanPricer(int d,int nbSamples, BasketOption* option, BlackS
 	alpha = pnl_vect_create(g->len_T);
 	S = pnl_mat_create(nbSamples, nbSSJ);
 	Payoff = pnl_vect_create(nbSamples);
+	row = pnl_vect_create(nbSSJ);
+	X = new double[nbSSJ];
 
 	a = new double[nbSSJ];
 	b = new double[nbSSJ];
@@ -35,6 +37,7 @@ AmericanPricer::AmericanPricer(int d,int nbSamples, BasketOption* option, BlackS
 		a[i] = GET(spots,i) * exp(  MIN((r - 0.5*sigma*sigma)*T,0.0) - 3*sigma*sqrt(T) );
 		b[i] = GET(spots, i) * exp(MAX((r - 0.5*sigma*sigma)*T, 0.0) + 3*sigma*sqrt(T));
 	}
+
 }
 
 
@@ -79,21 +82,6 @@ int AmericanPricer::compute_tau_opt( int indexSimu) {
 			tauNext = n;
 		}
 	}
-
-	/*
-	  Dernière étape : on regarde si il vaut mieux exercer en t=0 où en t = timeStep
-	*/
-	double esperance = 0.0;
-	for (int i = 0; i < nbSamples; i++) {
-		esperance += option->payoff(simulated_paths[i], 1);
-	}
-	esperance /= (double)nbSamples;
-	//std::cout << " Esperance conditionnelle  = " << exp(-r*timeStep)* esperance << std::endl;
-	//std::cout << " Payoff  = " << option->payoff(simulated_paths[indexSimu], 0) << std::endl;
-	if (option->payoff(simulated_paths[indexSimu],0) > exp(-r*timeStep)* esperance) {		
-		tauNext = 0.0;
-	}
-
 	return tauNext;
 }
 
@@ -103,7 +91,7 @@ double AmericanPricer::compute_Conditional_Expectation( int t, double tauNext,in
 	   Creation de la matice S de taille nbSamples * nbSSJ : chaque ligne i de S 
 	   contient les valeurs des sous-jacents de la simulation i
 	*/
-	PnlVect* row = pnl_vect_create(nbSSJ);
+	
 	for (int i = 0; i < nbSamples; i++) {
 		pnl_mat_get_row(row,simulated_paths[i],t);
 		pnl_mat_set_row(S, row, i);
@@ -117,7 +105,7 @@ double AmericanPricer::compute_Conditional_Expectation( int t, double tauNext,in
 			MLET(S, i, j) = (MGET(S, i, j) - 0.5*(a[j] + b[j]) )/ (b[j] - a[j]);
 		}
 	}
-	pnl_vect_free(&row);
+	
 
    	//pnl_mat_print(S);
 	
@@ -138,8 +126,7 @@ double AmericanPricer::compute_Conditional_Expectation( int t, double tauNext,in
 
 	/*
 	   Construction du vecteur X (point auquel on calcule le polynome)
-	*/
-	double* X = new double [nbSSJ];
+	*/	
 	for (int j = 0; j < nbSSJ; j++) {
 		X[j] = (MGET(simulated_paths[indexSimu],t,j) - 0.5*(a[j] + b[j]) ) / (b[j] - a[j]);
 		//std::cout << X[j] << "\n";
@@ -150,7 +137,7 @@ double AmericanPricer::compute_Conditional_Expectation( int t, double tauNext,in
 	   et du point où on calcule le polynôme (X)
 	*/
 	double ce = pnl_basis_eval(g, alpha, X);
-	delete X;
+	
 
 	return ce;
 
@@ -167,6 +154,8 @@ AmericanPricer::~AmericanPricer() {
 	pnl_basis_free(&g);	
 	pnl_vect_free(&alpha);
 	pnl_vect_free(&Payoff);
+	pnl_vect_free(&row);
+	delete X;
 	delete a;
 	delete b;
 
